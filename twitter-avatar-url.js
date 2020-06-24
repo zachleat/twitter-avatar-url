@@ -10,7 +10,7 @@ async function getUrl(username) {
     "large" : "_400x400"
   };
 
-  // Make the request to twitter and parse the response
+  // TODO use eleventy cache for this
   let body = await fetch(`https://mobile.twitter.com/${username}`);
   let res = await body.text();
   debug("Body text: %o", res);
@@ -18,18 +18,31 @@ async function getUrl(username) {
   let url = $(".avatar img").attr("src") || "";
   debug("Found url: %o", url);
 
-  return {
+  let ret = {
     username: username,
     url: {
       small: url,
       large: url.replace("_normal", option.large)
     }
   };
+  if(!url) {
+    let errorText = $("#main_content .title").text() || $("#main_content .content").text();
+    ret.error = errorText.trim();
+
+    if(!errorText) {
+      console.log( `Error loading twitter username for ${username}: ${res}` );
+    }
+  }
+  return ret;
 }
 
 /* Queue */
 let queue = new PQueue({
-  concurrency: 5
+  concurrency: 5,
+
+  // We must go very slow so that we don’t trip Twitter’s rate limiting.
+  interval: 2000,
+  intervalCap: 1,
 });
 
 queue.on("active", () => {
