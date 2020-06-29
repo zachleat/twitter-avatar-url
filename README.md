@@ -14,7 +14,18 @@ npm install twitter-avatar-url
 const getTwitterAvatarUrl = require("twitter-avatar-url");
 
 (async function() {
-	let url = await getTwitterAvatarUrl("zachleat");
-	console.log( url );
+	let avatarInfo = await getTwitterAvatarUrl("zachleat");
+	/*
+	// Returns an object like:
+
+	{ username: 'jamstackconf',
+		url:{
+			small: 'https://pbs.twimg.com/profile_images/1217872345651609603/-Ybv2ifT_normal.jpg',
+			large: 'https://pbs.twimg.com/profile_images/1217872345651609603/-Ybv2ifT_400x400.jpg'
+		}
+	}
+	*/
+
+	console.log( avatarInfo.url.large );
 })();
 ```
