@@ -7,7 +7,7 @@ function getLargeUrlFromSmallUrl(url) {
   return url.replace("_normal", "_400x400");
 }
 
-function chunkUsernames(usernames, limit = 100) {
+function chunkUsernames(usernames = [], limit = 100) {
   let chunks = [];
   for(let j = 0, k = usernames.length; j<k; j+= limit) {
     chunks.push(usernames.slice(j, j + limit));
@@ -36,6 +36,10 @@ async function getUrls(usernames = []) {
         }
       }
     });
+
+    if(results.errors) {
+      console.log(`twitter-avatar-url Twitter API Errors (good entry count: ${results.data.length}):`, results.errors);
+    }
 
     let avatarUrls = [];
     for(let entry of results.data) {
@@ -68,10 +72,12 @@ async function fetchAll(usernames = []) {
   // case insensitive
   let lowercase = usernames.map(entry => entry.toLowerCase());
 
-  // make unique and sort
-  usernames = Array.from(new Set(lowercase)).sort();
+  // make unique and sort, keep non-empty entries only
+  usernames = Array.from(new Set(lowercase.filter(entry => !!entry))).sort();
 
-  let results = await Promise.all(chunkUsernames(usernames).map(chunk => getUrls(usernames)));
+  let results = await Promise.all(chunkUsernames(usernames).map(chunk => {
+    return getUrls(chunk);
+  }));
   let returnData = [];
   for(let result of results) {
     for(let entry of result) {
