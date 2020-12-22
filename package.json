@@ -1,6 +1,6 @@
 {
   "name": "twitter-avatar-url",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Find a twitter avatar image url from a twitter username.",
   "main": "twitter-avatar-url.js",
   "scripts": {
