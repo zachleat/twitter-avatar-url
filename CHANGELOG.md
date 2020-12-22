@@ -1,3 +1,7 @@
+2.0.3:
+* Bug fix for falsy usernames
+* Log API errors.
+
 2.0.2:
 * Make all usernames lowercase
 * Sort usernames before sending to service for more cache hits.
