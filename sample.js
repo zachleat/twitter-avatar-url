@@ -16,4 +16,5 @@ const getTwitterAvatarUrl = require("./twitter-avatar-url");
 		"filamentgroup"
 	]);
 	console.log( results );
+	console.log( results.length );
 })();

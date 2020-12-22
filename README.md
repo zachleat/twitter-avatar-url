@@ -1,6 +1,9 @@
 # twitter-avatar-url
 
-Find one or more twitter avatar image URLs from one or more twitter usernames.
+Find one or more twitter avatar image URLs from one or more twitter usernames. 
+
+* Automatically removes duplicate usernames from the input
+* Handles Twitter API limits for you. This service limits 100 usernames per request but if you pass 200 unique usernames to this function, we will return 200 entries to you.
 
 ## Installation
 

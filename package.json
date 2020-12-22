@@ -17,5 +17,8 @@
     "@11ty/eleventy-cache-assets": "^2.0.3",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "ava": "^3.14.0"
   }
 }

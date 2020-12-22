@@ -7,17 +7,15 @@ function getLargeUrlFromSmallUrl(url) {
   return url.replace("_normal", "_400x400");
 }
 
-async function getUrl(usernames = []) {
-  if(typeof usernames === "string") {
-    usernames = [usernames];
+function chunkUsernames(usernames, limit = 100) {
+  let chunks = [];
+  for(let j = 0, k = usernames.length; j<k; j+= limit) {
+    chunks.push(usernames.slice(j, j + limit));
   }
-  
-  let token = process.env.TWITTER_BEARER_TOKEN;
-  if(!token) {
-    console.error("Missing TWITTER_BEARER_TOKEN environment variable!");
-    return;
-  }
-  
+  return chunks;
+}
+
+async function getUrls(usernames = []) {
   //curl https://api.twitter.com/2/users/by?usernames=TwitterDev,Twitter&user.fields=profile_image_url -H "Authorization: Bearer $BEARER_TOKEN"
 
   try {
@@ -38,7 +36,7 @@ async function getUrl(usernames = []) {
         }
       }
     });
-    
+
     let avatarUrls = [];
     for(let entry of results.data) {
       avatarUrls.push({
@@ -56,4 +54,30 @@ async function getUrl(usernames = []) {
 	}
 }
 
-module.exports = getUrl;
+async function fetchAll(usernames = []) {
+  if(typeof usernames === "string") {
+    usernames = [usernames];
+  }
+
+  let token = process.env.TWITTER_BEARER_TOKEN;
+  if(!token) {
+    console.error("Missing TWITTER_BEARER_TOKEN environment variable!");
+    return;
+  }
+
+  // make unique
+  usernames = Array.from(new Set(usernames));
+
+  let results = await Promise.all(chunkUsernames(usernames).map(chunk => getUrls(usernames)));
+  let returnData = [];
+  for(let result of results) {
+    for(let entry of result) {
+      returnData.push(entry);
+    }
+  }
+  return returnData;
+}
+
+module.exports = fetchAll;
+
+module.exports.chunkUsernames = chunkUsernames;
