@@ -1,6 +1,6 @@
 {
   "name": "twitter-avatar-url",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Find a twitter avatar image url from a twitter username.",
   "main": "twitter-avatar-url.js",
   "scripts": {
@@ -14,9 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
+    "@11ty/eleventy-cache-assets": "^2.0.3",
     "debug": "^4.1.1",
-    "node-fetch": "^2.6.0",
-    "p-queue": "^6.4.0"
+    "dotenv": "^8.2.0"
   }
 }
