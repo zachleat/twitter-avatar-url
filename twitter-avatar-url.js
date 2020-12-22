@@ -40,7 +40,7 @@ async function getUrls(usernames = []) {
     let avatarUrls = [];
     for(let entry of results.data) {
       avatarUrls.push({
-        username: entry.username,
+        username: entry.username.toLowerCase(),
         url: {
           small: entry.profile_image_url,
           large: getLargeUrlFromSmallUrl(entry.profile_image_url)
@@ -65,8 +65,11 @@ async function fetchAll(usernames = []) {
     return;
   }
 
-  // make unique
-  usernames = Array.from(new Set(usernames));
+  // case insensitive
+  let lowercase = usernames.map(entry => entry.toLowerCase());
+
+  // make unique and sort
+  usernames = Array.from(new Set(lowercase)).sort();
 
   let results = await Promise.all(chunkUsernames(usernames).map(chunk => getUrls(usernames)));
   let returnData = [];
