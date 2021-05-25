@@ -12,7 +12,10 @@ Find one or more twitter avatar image URLs from one or more twitter usernames.
 npm install twitter-avatar-url
 ```
 
-Uses [Twitter API v2 `/users/lookup/by`](https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by) which requires a `.env` file with a `TWITTER_BEARER_TOKEN` set. You can generate one of these from the [Twitter Developer portal](https://developer.twitter.com/) by creating an application.
+Can use either the v1 or v2 Twitter API. Both require an `.env` file with a `TWITTER_BEARER_TOKEN` set. You can generate one of these from the [Twitter Developer portal](https://developer.twitter.com/) by creating an application.
+
+* [Twitter API v2 `/users/lookup/by`](https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by) (default)
+* [Twitter API v1 `/users/lookup`](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup)
 
 ## Usage
 
@@ -36,4 +39,16 @@ const getTwitterAvatarUrl = require("twitter-avatar-url");
 
 	console.log( avatars[0].url.large );
 })();
+```
+
+### Use the Twitter v1 API
+
+```js
+const getTwitterAvatarUrl = require("twitter-avatar-url");
+
+let avatars = await getTwitterAvatarUrl("zachleat", {
+	twitterApiVersion: 1
+});
+
+// Returns the same object as the v2 API above.
 ```
