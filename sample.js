@@ -14,7 +14,10 @@ const getTwitterAvatarUrl = require("./twitter-avatar-url");
 		"nebraskajs",
 		"netlify",
 		"filamentgroup"
-	]);
+	], {
+		twitterApiVersion: 2 // default
+		// twitterApiVersion: 1
+	});
 	console.log( results );
 	console.log( results.length );
 })();

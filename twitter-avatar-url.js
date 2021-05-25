@@ -15,15 +15,24 @@ function chunkUsernames(usernames = [], limit = 100) {
   return chunks;
 }
 
-async function getUrls(usernames = []) {
+async function getUrls(usernames = [], options = {}) {
+  //curl https://api.twitter.com/1.1/users/lookup.json?usernames=TwitterDev,Twitter -H "Authorization: Bearer $BEARER_TOKEN"
   //curl https://api.twitter.com/2/users/by?usernames=TwitterDev,Twitter&user.fields=profile_image_url -H "Authorization: Bearer $BEARER_TOKEN"
 
   try {
-    let params = new URLSearchParams({
-      usernames: usernames.join(","),
-      "user.fields": "profile_image_url"
-    });
-    let url = `https://api.twitter.com/2/users/by?${params}`;
+    let url;
+    if(Math.floor(options.twitterApiVersion) === 1) {
+      let v1Params = new URLSearchParams({
+        screen_name: usernames.join(",")
+      });
+      url = `https://api.twitter.com/1.1/users/lookup.json?${v1Params}`;
+    } else {
+      let v2Params = new URLSearchParams({
+        usernames: usernames.join(","),
+        "user.fields": "profile_image_url"
+      });
+      url = `https://api.twitter.com/2/users/by?${v2Params}`;
+    }
 
 		/* This returns a promise */
 		let results = await Cache(url, {
@@ -42,12 +51,22 @@ async function getUrls(usernames = []) {
     }
 
     let avatarUrls = [];
-    for(let entry of results.data) {
+    let data;
+    if(Array.isArray(results.data)) { // v2 API
+      data = results.data;
+    } else if(Array.isArray(results)) { // v1 API
+      data = results;
+    } else {
+      data = [];
+    }
+
+    for(let entry of data) {
+      let entryUrl = entry.profile_image_url || entry.profile_image_url_https;
       avatarUrls.push({
-        username: entry.username.toLowerCase(),
+        username: (entry.username || entry.screen_name).toLowerCase(),
         url: {
-          small: entry.profile_image_url,
-          large: getLargeUrlFromSmallUrl(entry.profile_image_url)
+          small: entryUrl,
+          large: getLargeUrlFromSmallUrl(entryUrl)
         }
       });
     }
@@ -58,7 +77,7 @@ async function getUrls(usernames = []) {
 	}
 }
 
-async function fetchAll(usernames = []) {
+async function fetchAll(usernames = [], options = {}) {
   if(typeof usernames === "string") {
     usernames = [usernames];
   }
@@ -76,7 +95,7 @@ async function fetchAll(usernames = []) {
   usernames = Array.from(new Set(lowercase.filter(entry => !!entry))).sort();
 
   let results = await Promise.all(chunkUsernames(usernames).map(chunk => {
-    return getUrls(chunk);
+    return getUrls(chunk, options);
   }));
   let returnData = [];
   for(let result of results) {
