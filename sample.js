@@ -15,7 +15,7 @@ const getTwitterAvatarUrl = require("./twitter-avatar-url");
 		"netlify",
 		"filamentgroup"
 	], {
-		twitterApiVersion: 2 // default
+		twitterApiVersion: 1 // default
 		// twitterApiVersion: 1
 	});
 	console.log( results );

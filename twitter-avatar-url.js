@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const Cache = require("@11ty/eleventy-cache-assets");
+const EleventyFetch = require("@11ty/eleventy-fetch");
 const debug = require("debug")("twitter-avatar-url");
 
 function getLargeUrlFromSmallUrl(url) {
@@ -35,7 +35,7 @@ async function getUrls(usernames = [], options = {}) {
     }
 
 		/* This returns a promise */
-		let results = await Cache(url, {
+		let results = await EleventyFetch(url, {
 			duration: "1d",
       type: "json",
       fetchOptions: {

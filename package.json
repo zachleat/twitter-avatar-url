@@ -4,7 +4,8 @@
   "description": "Find a twitter avatar image url from a twitter username.",
   "main": "twitter-avatar-url.js",
   "scripts": {
-    "sample": "node sample.js"
+    "sample": "node sample.js",
+    "test": "npx ava"
   },
   "keywords": [],
   "author": {
@@ -14,7 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@11ty/eleventy-cache-assets": "^2.0.3",
+    "@11ty/eleventy-fetch": "^3.0.0",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0"
   },
