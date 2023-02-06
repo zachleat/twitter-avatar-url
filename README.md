@@ -1,6 +1,8 @@
 # twitter-avatar-url
 
-🚨🚨 With Twitter’s February 9, 2023 retirement of the [free version of the API](https://twitter.com/TwitterDev/status/1621026986784337922), this package is now retired. 🚨🚨
+🚨🚨 **With Twitter’s February 9, 2023 retirement of the [free version of the API](https://twitter.com/TwitterDev/status/1621026986784337922), this package is now retired.** 🚨🚨
+
+---
 
 Find one or more twitter avatar image URLs from one or more twitter usernames. 
 
