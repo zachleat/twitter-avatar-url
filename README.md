@@ -16,6 +16,8 @@ Find one or more twitter avatar image URLs from one or more twitter usernames.
 npm install twitter-avatar-url
 ```
 
+Available on [npm](https://www.npmjs.com/package/twitter-avatar-url).
+
 Can use either the v1 or v2 Twitter API. Both require an `.env` file with a `TWITTER_BEARER_TOKEN` set. You can generate one of these from the [Twitter Developer portal](https://developer.twitter.com/) by creating an application.
 
 * [Twitter API v2 `/users/lookup/by`](https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by) (default)
